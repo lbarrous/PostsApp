@@ -5,7 +5,12 @@
   <mat-card-title>Latest Posts</mat-card-title>
 </mat-card>
 
-<mat-card *ngFor="let post of posts$ | async" class="card">
+<mat-card *ngIf="showLoader" class="card">
+  <mat-spinner></mat-spinner>
+</mat-card>
+
+
+<mat-card *ngFor="let post of posts$" class="card">
   <mat-card-content>
     <h1>{{ post.title }}</h1>
     <p>{{ post.body }}</p>

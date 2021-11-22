@@ -23,11 +23,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent, PostComponent, PostsListComponent, PostsDialogComponent],
   imports: [
+    MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

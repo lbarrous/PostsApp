@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Post } from '../models/post';
 import { PostsDialogComponent } from '../posts-dialog/posts-dialog.component';
 import { PostService } from '../services/post.service';
@@ -12,18 +12,36 @@ import { PostService } from '../services/post.service';
   styleUrls: ['./posts-list.component.scss'],
 })
 export class PostsListComponent implements OnInit {
-  posts$: Observable<Array<Post>>;
+  posts$: Array<Post>;
+  showLoader: boolean = false;
 
   constructor(
     private postService: PostService,
-    private snackBar: MatSnackBar,
+    private matSnackbar: MatSnackBar,
     private matDialog: MatDialog
   ) {
-    this.posts$ = this.postService.getPosts();
+    this.fetchPosts();
+  }
+
+  fetchPosts() {
+    this.showLoader = true;
+    this.postService.getPosts().subscribe(
+      (posts) => {
+        this.posts$ = posts;
+        this.showLoader = false;
+      },
+      (error) => {
+        //Error callback
+        this.matSnackbar.open('Error: Try after some time.', 'Error', {
+          duration: 3000,
+        });
+        this.showLoader = false;
+      }
+    );
   }
 
   ngOnInit() {
-    this.posts$ = this.postService.getPosts();
+    this.fetchPosts();
   }
 
   openPostDialog(mode: string, post: Post | null = null) {
@@ -36,7 +54,20 @@ export class PostsListComponent implements OnInit {
 
     // Getting new Post after closing dialog
     dialogRef.afterClosed().subscribe((result) => {
-      this.posts$ = this.postService.refetchPosts();
+      this.showLoader = true;
+      this.postService.refetchPosts().subscribe(
+        (posts) => {
+          this.posts$ = posts;
+          this.showLoader = false;
+        },
+        (error) => {
+          //Error callback
+          this.matSnackbar.open('Error: Try after some time.', 'Retry', {
+            duration: 3000,
+          });
+          this.showLoader = false;
+        }
+      );
     });
   }
 }
