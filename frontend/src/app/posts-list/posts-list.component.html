@@ -1,0 +1,19 @@
+<button mat-button color="primary" (click)="openPostDialog('new')">
+  ADD POST
+</button>
+<mat-card class="card">
+  <mat-card-title>Latest Posts</mat-card-title>
+</mat-card>
+
+<mat-card *ngFor="let post of posts$ | async" class="card">
+  <mat-card-content>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.body }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <a routerLink="/posts/{{ post.id }}" mat-raised-button color="accent"
+      >Detail</a
+    >
+  </mat-card-actions>
+</mat-card>

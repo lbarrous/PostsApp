@@ -1,0 +1,90 @@
+<mat-card *ngIf="post" class="card">
+  <mat-card-title>
+    {{ post.title }}
+  </mat-card-title>
+  <mat-card-subtitle> ID: {{ post.id }} </mat-card-subtitle>
+  <mat-card-content>
+    <p>{{ post.body }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <a routerLink="/posts" mat-raised-button color="primary">Back to posts</a>
+    <button
+      mat-icon-button
+      matTooltip="Edit Post"
+      (click)="openPostDialog('edit', post)"
+    >
+      <mat-icon style="color: royalblue">edit</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      matTooltip="Delete Post"
+      (click)="deletePost(post.id)"
+    >
+      <mat-icon style="color: red">delete</mat-icon>
+    </button>
+  </mat-card-actions>
+  <mat-card-content>
+    <h2>Created by:</h2>
+    <mat-grid-list cols="3" rowHeight="250px">
+      <mat-grid-tile>
+        <mat-list>
+            <mat-list-item>
+              <mat-icon mat-list-icon>account_circle</mat-icon>
+            </mat-list-item>
+            <mat-list-item>
+                <p>Name: {{ post.user.name }}
+              </mat-list-item>
+              <mat-list-item>
+                <p>Username: {{ post.user.username }}
+              </mat-list-item>
+              <mat-list-item>
+                <p>Email: {{ post.user.email }}
+              </mat-list-item>
+        </mat-list>
+        </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-list>
+            <mat-list-item>
+                <p>Street: {{ post.user.address.street }}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <p>Suite: {{ post.user.address.suite }}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <p>City: {{ post.user.address.city }}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <p>Zipcode: {{ post.user.address.zipcode }}</p>
+              </mat-list-item>
+        </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-list>
+            <mat-list-item>
+                <p>Lat: {{ post.user.address.geo.lat }}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <p>Long: {{ post.user.address.geo.lng }}</p>
+              </mat-list-item>
+        </mat-list>
+    </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+  <h2>Comments</h2>
+  <mat-card-content *ngFor="let comment of post.comments">
+    <mat-card *ngIf="post" class="card">
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <p>{{ comment.name }}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <p>{{ comment.email }}</p>
+          </mat-list-item>
+          {{ comment.body }}
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>
