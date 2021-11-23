@@ -2,6 +2,15 @@
   ADD POST
 </button>
 <mat-card class="card">
+  <form class="example-form">
+    <mat-form-field class="example-full-width" >
+      <mat-label>Find post</mat-label>
+      <input [(ngModel)]= "search" (ngModelChange)="searchPosts()" [ngModelOptions]="{standalone: true}" matInput placeholder="" value="">
+    </mat-form-field>
+    
+  </form>
+</mat-card>
+<mat-card class="card">
   <mat-card-title>Latest Posts</mat-card-title>
 </mat-card>
 

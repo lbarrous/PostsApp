@@ -12,8 +12,10 @@ import { PostService } from '../services/post.service';
   styleUrls: ['./posts-list.component.scss'],
 })
 export class PostsListComponent implements OnInit {
+  storedPosts: Array<Post>;
   posts$: Array<Post>;
   showLoader: boolean = false;
+  search: string;
 
   constructor(
     private postService: PostService,
@@ -23,11 +25,18 @@ export class PostsListComponent implements OnInit {
     this.fetchPosts();
   }
 
+  searchPosts() {
+    this.posts$ = this.storedPosts.filter((post) => {
+      return post.title.toLowerCase().includes(this.search.toLowerCase());
+    });
+  }
+
   fetchPosts() {
     this.showLoader = true;
     this.postService.getPosts().subscribe(
       (posts) => {
         this.posts$ = posts;
+        this.storedPosts = posts;
         this.showLoader = false;
       },
       (error) => {
@@ -58,6 +67,7 @@ export class PostsListComponent implements OnInit {
       this.postService.refetchPosts().subscribe(
         (posts) => {
           this.posts$ = posts;
+          this.storedPosts = posts;
           this.showLoader = false;
         },
         (error) => {
